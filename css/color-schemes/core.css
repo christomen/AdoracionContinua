@@ -2757,10 +2757,10 @@ html[xmlns] .slides {
   border-bottom: none !important;
 }
 /*---
-| PROMOS
+| PROMOS margin-bottom: 60px;
 ---*/
 .promos {
-  margin-bottom: 60px;
+  margin-bottom: 30px;
 }
 .promos .box {
   color: #939694;
