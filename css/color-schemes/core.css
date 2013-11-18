@@ -2544,8 +2544,9 @@ html[xmlns] .slides {
 .no-js .slides > li:first-child {
   display: block;
 }
+/*    margin: -40px 0 80px;  */
 .flexslider {
-  margin: -40px 0 80px;
+  margin: -40px 0 30px;
   position: relative;
   z-index: 10;
   border: none;
