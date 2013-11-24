@@ -871,7 +871,7 @@ textarea {
 .box {
   margin-bottom: 20px;
   background-color: #ffffff;
-  padding: 20px;
+  padding: 20px 20px 5px 20px;
   -webkit-border-radius: 2px;
   -webkit-background-clip: padding-box;
   -moz-border-radius: 2px;
