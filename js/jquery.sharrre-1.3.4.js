@@ -1,12 +1,14 @@
-/*
+/*!
  *  Sharrre.com - Make your sharing widget!
- *  Version: beta 1.3.3 
+ *  Version: beta 1.3.5
  *  Author: Julien Hany
  *  License: MIT http://en.wikipedia.org/wiki/MIT_License or GPLv2 http://en.wikipedia.org/wiki/GNU_General_Public_License
  */
 
 ;(function ( $, window, document, undefined ) {
-	'use strict';
+
+  'use strict';
+  
   /* Defaults
   ================================================== */
   var pluginName = 'sharrre',
@@ -99,17 +101,19 @@
   ================================================== */
   urlJson = {
     googlePlus: "",
-    //new FQL method by Sire
-    facebook: "https://graph.facebook.com/fql?q=SELECT%20url,%20normalized_url,%20share_count,%20like_count,%20comment_count,%20total_count,commentsbox_count,%20comments_fbid,%20click_count%20FROM%20link_stat%20WHERE%20url=%27{url}%27&callback=?",
+
+  //new FQL method by Sire
+  facebook: "https://graph.facebook.com/fql?q=SELECT%20url,%20normalized_url,%20share_count,%20like_count,%20comment_count,%20total_count,commentsbox_count,%20comments_fbid,%20click_count%20FROM%20link_stat%20WHERE%20url=%27{url}%27&callback=?",
     //old method facebook: "http://graph.facebook.com/?id={url}&callback=?",
     //facebook : "http://api.ak.facebook.com/restserver.php?v=1.0&method=links.getStats&urls={url}&format=json"
+    
     twitter: "http://cdn.api.twitter.com/1/urls/count.json?url={url}&callback=?",
     digg: "http://services.digg.com/2.0/story.getInfo?links={url}&type=javascript&callback=?",
     delicious: 'http://feeds.delicious.com/v2/json/urlinfo/data?url={url}&callback=?',
     //stumbleupon: "http://www.stumbleupon.com/services/1.01/badge.getinfo?url={url}&format=jsonp&callback=?",
     stumbleupon: "",
     linkedin: "http://www.linkedin.com/countserv/count/share?format=jsonp&url={url}&callback=?",
-    pinterest: ""
+    pinterest: "http://api.pinterest.com/v1/urls/count.json?url={url}&callback=?"
   },
   /* Load share buttons asynchronously
   ================================================== */
@@ -363,7 +367,6 @@
     if(this.options.urlCurl !== ''){
       urlJson.googlePlus = this.options.urlCurl + '?url={url}&type=googlePlus'; // PHP script for GooglePlus...
       urlJson.stumbleupon = this.options.urlCurl + '?url={url}&type=stumbleupon'; // PHP script for Stumbleupon...
-      urlJson.pinterest = this.options.urlCurl + '?url={url}&type=pinterest'; // PHP script for Pinterest...
     }
     $(this.element).addClass(this.options.className); //add class
     
@@ -449,17 +452,14 @@
     //console.log('name : ' + name + ' - url : '+url); //debug
     if(url != '' && self.options.urlCurl !== ''){  //urlCurl = '' if you don't want to used PHP script but used social button
       $.getJSON(url, function(json){
-        if(typeof json.count !== "undefined"){  //GooglePlus, Stumbleupon, Twitter and Digg
+        if(typeof json.count !== "undefined"){  //GooglePlus, Stumbleupon, Twitter, Pinterest and Digg
           var temp = json.count + '';
           temp = temp.replace('\u00c2\u00a0', '');  //remove google plus special chars
           count += parseInt(temp, 10);
         }
-        //get the FB total count (shares, likes and more)
+    //get the FB total count (shares, likes and more)
         else if(json.data && json.data.length > 0 && typeof json.data[0].total_count !== "undefined"){ //Facebook total count
           count += parseInt(json.data[0].total_count, 10);
-        }     
-        else if(typeof json.shares !== "undefined"){  //Facebook
-         count += parseInt(json.shares, 10);
         }
         else if(typeof json[0] !== "undefined"){  //Delicious
           count += parseInt(json[0].total_posts, 10);
